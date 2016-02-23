@@ -46,7 +46,8 @@ def play(dev=0):
     key = 0
     pause = False
     bg = False
-    global re
+    chroma_go = False
+    #global re
 
     while(True):
         key = cv.waitKey(1) & 0xFF
@@ -61,12 +62,13 @@ def play(dev=0):
 
         if key == ord('b'):
             cv.imwrite(BACK_PATH, frame)
-
-        if key == ord('c'):
-            back = cv.imread(BACK_PATH)
             bg = True
 
-        if bg:
+        if key == ord('c') and bg:
+            back = cv.imread(BACK_PATH)
+            chroma_go = True
+
+        if chroma_go:
             chroma_yuv(back, frame, re)
 
         cv.imshow('frame', cv.flip(frame, 1))
