@@ -37,7 +37,7 @@ def chroma_yuv(bg, img, dst):
 
 # chroma in a photo
 def static_chroma(bg, img, dst):
-    cv.imwrite('images/chroma/res.png',chroma(bg, img, dst))
+    cv.imwrite('images/chroma/res.png',chroma_rgb(bg, img, dst))
 
 # b takes the chroma's background
 # c starts the chroma's effect
