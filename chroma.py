@@ -2,18 +2,12 @@
 
 import cv2 as cv
 import numpy as np
+import utils
 
 # global variables
 re = cv.imread('images/chroma/pano002.jpg') # the new background
 LIMIT = 65 # mask limit
 BACK_PATH = 'images/chroma/background.png' # path of the chroma bg
-
-# change image from BGR to RGB and RGB to YUV
-def readrgb(file):
-    return cv.cvtColor( cv.imread("images/chroma/"+file), cv.COLOR_BGR2RGB)
-
-def rgb2yuv(x):
-    return cv.cvtColor(x,cv.COLOR_RGB2YUV)
 
 # auxiliar method to apply the mask
 def apply_mask(dif_img, img, dst):
@@ -70,8 +64,9 @@ def play(dev=0):
 
         if chroma_go:
             chroma_yuv(back, frame, re)
-
-        cv.imshow('frame', cv.flip(frame, 1))
+        else:
+            cv.imshow('frame', cv.flip(frame, 1))
+    cv.destroyAllWindows()
 
 if __name__ == "__main__":
     play()

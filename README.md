@@ -1,7 +1,12 @@
+# Menú de aplicaciones
+
+Incluido menú de aplicaciones gráfico para elegir, por ahora, entre la aplicación de ROI y la de CHROMA.
+Ha sido utilizada la librería PyQt4.
+
 # ROI
 
  Prueba de captura de una Región de Interés en vídeo capturado por webcam usando python y opencv.
- 
+
 ## Funciones de captura y creación de una sesión
 
 - Comando 'c': Se realiza una foto y se guarda en disco.

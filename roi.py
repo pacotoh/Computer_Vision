@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 
 import cv2 as cv
-import pickle
 import os, os.path
 import matplotlib.pyplot as plt
 from time import gmtime, strftime
 import numpy as np
+import utils
 
 #global variables for the roi creation
 ix,iy = 200,200
@@ -14,10 +14,9 @@ frame = -1
 roi_capt = False
 isButtonDown = False
 
-def play(f, dev=0):
+def play(f=None, dev=0):
     cap = cv.VideoCapture(dev)
     pausa = False
-    #roi_capt = False
     img_index = 0
     roi_index = 0
 
@@ -29,7 +28,7 @@ def play(f, dev=0):
         img_index = 0
         roi_index = 0
     else:
-        img_list,img_index = load_session(path)
+        img_list,img_index = utils.load_session(path)
 
     while True:
         key = cv.waitKey(1) & 0xFF
@@ -57,32 +56,19 @@ def play(f, dev=0):
 
         #saves the current session
         if key == ord('s'):
-            save_session(path)
-            print('#Saved in ' + path + 'save.pkl')
+            utils.save_session(path)
 
         if pausa:
             continue
 
         if roi_capt:
-            roi = roi_capture(f, frame, (ix, iy), (jx, jy))
+            roi = roi_capture(frame, (ix, iy), (jx, jy))
 
         cv.imshow('frame',frame)
     cv.destroyAllWindows()
 
-#functions to write and load pickles
-def save_session(path):
-    list_img = []
-    for f in os.listdir(path):
-        img = cv.imread(path + f)
-        list_img.append(img)
-    pickle.dump(list_img, open(path + 'save.pkl', 'wb'))
-
-def load_session(path):
-    list_img = pickle.load(open(path + 'save.pkl', 'rb'))
-    return list_img, len(list_img)-1
-
 #function to create a roi and apply transform to it
-def roi_capture(transform, frame, lu, rd, color=(255, 255, 255)):
+def roi_capture(frame, lu, rd, color=(255, 255, 255)):
     l, u = lu
     r, d = rd
     roi = frame[u:d, l:r]
@@ -90,7 +76,7 @@ def roi_capture(transform, frame, lu, rd, color=(255, 255, 255)):
         isButtonDown = False
         return
     cv.rectangle(frame, lu, rd, color)
-    cv.imshow('roi_capture', transform(roi))
+    cv.imshow('roi_capture', roi)
     return roi
 
 #the event action
@@ -107,7 +93,4 @@ def mark_corner(event, x, y, flags, param):
         roi_capt = not roi_capt
 
 if __name__ == "__main__":
-    #save_session('./images/14_02/')
-    #lst, ln = load_session('./images/14_02/')
-    #print(ln)
-    play(lambda x: 255 - cv.cvtColor(x, cv.COLOR_RGB2GRAY), 0)
+    play()
