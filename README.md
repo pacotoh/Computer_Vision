@@ -30,3 +30,10 @@ Prueba de Chroma utilizando imágenes rgb y yuv.
 ## TODO
 
 Falta probar con varios fondos de chroma. Ej: Probar con Chroma verde.
+
+# IMG_Filters
+
+El primer paso es instalar PyQt. Si estás en linux puedes instalarlo en la terminal:
+```
+sudo apt-get install python-qt4
+```
