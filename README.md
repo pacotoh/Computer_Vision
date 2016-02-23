@@ -14,5 +14,13 @@
 el paso 1.
 
 #TODO 
-- Fallos al desactivar y volver a activar la ROI. 
 - Posibilidad de guardar la ROI con el efecto aplicado.
+
+
+# CHROMA
+
+Prueba de Chroma utilizando imágenes rgb y yuv.
+
+# TODO 
+
+- Falta la carpeta con la imagen de fondo.
