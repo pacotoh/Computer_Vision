@@ -33,7 +33,7 @@ Falta probar con varios fondos de chroma. Ej: Probar con Chroma verde.
 
 # IMG_Filters
 
-El primer paso es instalar PyQt. Si estás en linux puedes instalarlo en la terminal:
+El primer paso es instalar PyQt. Si utilizas linux puedes instalarlo en terminal con el comando:
 ```
 sudo apt-get install python-qt4
 ```
