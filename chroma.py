@@ -11,6 +11,7 @@ BACK_PATH = 'images/chroma/background.png' # path of the chroma bg
 
 # auxiliar method to apply the mask
 def apply_mask(dif_img, img, dst):
+    global LIMIT
     mask = dif_img > LIMIT
     r,c = mask.shape
     res = cv.resize(dst,(c,r))
@@ -41,7 +42,7 @@ def play(dev=0):
     pause = False
     bg = False
     chroma_go = False
-    #global re
+    global LIMIT
 
     while(True):
         key = cv.waitKey(1) & 0xFF
@@ -61,6 +62,12 @@ def play(dev=0):
         if key == ord('c') and bg:
             back = cv.imread(BACK_PATH)
             chroma_go = True
+
+        if key == ord('+'):
+            LIMIT = LIMIT + 5
+
+        if key == ord('-'):
+            LIMIT = LIMIT - 5
 
         if chroma_go:
             chroma_yuv(back, frame, re)

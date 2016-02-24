@@ -26,6 +26,7 @@ Prueba de Chroma utilizando imágenes rgb y yuv.
 
 - Pulsando 'b' se toma una captura como background de Chroma. Esto quiere decir que lo nuevo que aparezca añadido a dicha imagen será seleccionado para transferirse a un nuevo fondo.
 - Pulsando 'c' comienza la ejecución del Chroma. Anteriormente ha tenido que establecerse una imagen de background con el comando 'b'.
+- Pulsando '+' y '-' se ajusta el límite para la máscara.
 
 ## TODO
 
