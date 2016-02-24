@@ -14,11 +14,11 @@ def uvh(x):
         return x / np.sum(x)
 
     yuv = utils.rgb2yuv(x)
-    h = cv.calcHist([yuv]     # podríamos pasar varias regiones
-                    ,[1,2]    # elegimos los canales U y V
-                    ,None     # posible máscara
-                    ,[32,32]  # las cajitas en cada dimensión
-                    ,[0,256]+[0,256] # rango de interés (todo)
+    h = cv.calcHist([yuv]
+                    ,[1,2]
+                    ,None
+                    ,[32,32]
+                    ,[0,256]+[0,256]
                    )
     return normhist(h)
 
