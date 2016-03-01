@@ -28,14 +28,12 @@ ker4 = np.zeros([11, 11])
 ker4[5,range(11)] = 1
 ker4 = ker4/np.sum(ker4)
 
-print(ker4)
-
 ################################################################################
 
-if len(sys.argv) == 1:
-    image = cv.imread(IMAGE_PATH)
-elif len(sys.argv) == 2:
-    image = cv.imread(sys.argv[1])
+if len(sys.argv) == 2:
+    IMAGE_PATH = sys.argv[1]
+
+image = cv.imread(IMAGE_PATH)
 
 
 class Window(QtGui.QMainWindow):
@@ -108,7 +106,6 @@ class Window(QtGui.QMainWindow):
     #TODO NOT WORKING
     def convolve2d(self):
         if gray:
-            print('convolving')
             cv.imshow('convolve2D', utils.cconv(ker4, image))
 
     # if checked we have a gray image
