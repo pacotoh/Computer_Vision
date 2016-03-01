@@ -28,13 +28,16 @@ Prueba de Chroma utilizando imágenes rgb y yuv.
 - Pulsando 'c' comienza la ejecución del Chroma. Anteriormente ha tenido que establecerse una imagen de background con el comando 'b'.
 - Pulsando '+' y '-' se ajusta el límite para la máscara.
 
-## TODO
+# Filters
 
-Falta probar con varios fondos de chroma. Ej: Probar con Chroma verde.
-
-# IMG_Filters
-
-El primer paso es instalar PyQt. Si utilizas linux puedes instalarlo en terminal con el comando:
+El primer paso es instalar PyQt. Si utilizas linux puedes instalarlo en la terminal con el comando:
 ```
 sudo apt-get install python-qt4
 ```
+Ahora contamos con una pequeña GUI con botones. Cada uno de estos botones es un filtro para aplicar sobre la imagen.
+Hay un check en la esquina superior izquierda para cambiar la imagen elegida de color a escala de grises.
+
+# TODO 
+
+- No funciona el filtro convolve2D
+- Hacer el filtrado en un ROI de la imagen
