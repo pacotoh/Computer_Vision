@@ -10,36 +10,21 @@ IMAGE_PATH = 'images/chroma/pano002.jpg'
 image = None
 gray = False
 
-################################################################################
-ker = np.array([[0, 0, 0]
-               ,[-1, 0, 1]
-               ,[0, 0, 0]])
-ker2 = np.zeros([11,11])
-ker2[0,0] = 1
-ker2[10,10] = 1
-ker2[10,0] = 1
-ker2[0, 10] = 1
-ker2 = ker2/np.sum(ker2)
+# change the kernel to apply the convolve2D filter
+ker = np.array([[ 1, 0, 0]
+               ,[ 0, 0, 0]
+               ,[ 0, 0, 1]])
 
-ker3 = np.ones([11, 11])
-ker3 = ker3/np.sum(ker3)
-
-ker4 = np.zeros([11, 11])
-ker4[5,range(11)] = 1
-ker4 = ker4/np.sum(ker4)
-
-################################################################################
-
+# we can pass the image from the command line
 if len(sys.argv) == 2:
     IMAGE_PATH = sys.argv[1]
 
 image = cv.imread(IMAGE_PATH)
 
-
 class Window(QtGui.QMainWindow):
     def __init__(self):
         super(Window, self).__init__()
-        self.setGeometry(250, 250, 500, 400)
+        self.setGeometry(250, 250, 500, 300)
         self.setWindowTitle('Computer Vision Filters')
         self.home()
 
@@ -83,6 +68,7 @@ class Window(QtGui.QMainWindow):
         checkBox.stateChanged.connect(self.toGray)
 
         self.show()
+
     # to display the original image
     def show_img(self):
         cv.imshow('img', image)
@@ -103,12 +89,14 @@ class Window(QtGui.QMainWindow):
     def laplacianFilter(self):
         cv.imshow('laplacianFilter', image+1*cv.Laplacian(image, -1))
 
-    #TODO NOT WORKING
     def convolve2d(self):
         if gray:
-            cv.imshow('convolve2D', utils.cconv(ker4, image))
+            cv.imshow('convolve2D', utils.cconv(ker, image.astype(float)/255))
+        else:
+            QtGui.QMessageBox.about(self, 'Alert!',
+            "You can't use convolve2d in a RGB image!\nHint: check 'ToGray'")
 
-    # if checked we have a gray image
+    # if checked: we have a gray image
     def toGray(self, state):
         global image, gray
         if state == QtCore.Qt.Checked:
@@ -122,5 +110,4 @@ def main():
     app = QtGui.QApplication(sys.argv)
     GUI = Window()
     sys.exit(app.exec_())
-
 main()
