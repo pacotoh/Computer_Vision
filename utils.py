@@ -1,6 +1,9 @@
 import os
 import cv2 as cv
 import pickle
+import matplotlib.cm as cm
+from matplotlib.pyplot import imshow, subplot, title
+from scipy import signal
 
 #########################################################################################
 ############################### IMAGES ##################################################
