@@ -9,7 +9,7 @@ import numpy as np
 IMAGE_PATH = 'images/chroma/pano002.jpg'
 image = None
 gray = False
-#smooth = 5
+smooth = 5
 
 # change the kernel to apply the convolve2D method
 ker = np.array([[ 1, 0, 0]
@@ -65,7 +65,7 @@ class Window(QtGui.QMainWindow):
         btn.resize(100, 50)
         btn.move(350, 200)
 
-"""        btn = QtGui.QPushButton('+', self)
+        btn = QtGui.QPushButton('+', self)
         btn.clicked.connect(self.plusSmooth)
         btn.resize(50, 50)
         btn.move(150, 300)
@@ -73,7 +73,7 @@ class Window(QtGui.QMainWindow):
         btn = QtGui.QPushButton('-', self)
         btn.clicked.connect(self.minusSmooth)
         btn.resize(50, 50)
-        btn.move(300, 300)"""
+        btn.move(300, 300)
 
         checkBox = QtGui.QCheckBox('ToGray', self)
         checkBox.stateChanged.connect(self.toGray)
@@ -98,7 +98,7 @@ class Window(QtGui.QMainWindow):
         cv.imshow('bilateralFilter', cv.bilateralFilter(image, 0, 10, 10))
 
     def laplacianFilter(self):
-        cv.imshow('laplacianFilter', image+1*cv.Laplacian(image, -1)))
+        cv.imshow('laplacianFilter', image+1*cv.Laplacian(image, -1))
 
     def convolve2d(self):
         if gray:
@@ -107,13 +107,13 @@ class Window(QtGui.QMainWindow):
             QtGui.QMessageBox.about(self, 'Alert!',
             "You can't use convolve2d in a RGB image!\nHint: check 'ToGray'")
 
-    """def plusSmooth(self):
+    def plusSmooth(self):
         global smooth
         smooth = smooth*2
 
     def minusSmooth(self):
         global smooth
-        smooth = smooth/2"""
+        smooth = smooth/2
 
     # if checked: we have a gray image
     def toGray(self, state):
