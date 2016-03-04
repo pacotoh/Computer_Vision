@@ -21,6 +21,7 @@ class Window(QtGui.QMainWindow):
         self.filt = False
 
     def home(self):
+        # buttons
         btn = QtGui.QPushButton('Original', self)
         btn.clicked.connect(self.show_img)
         btn.resize(100, 50)
@@ -63,6 +64,7 @@ class Window(QtGui.QMainWindow):
         self.roi.play()
 
     # apply filters to the image
+    # TODO crash: if we don't close the effect and try another
     def boxFilter(self):
         self.roi.play(lambda x: cv.boxFilter(x, -1, (50, 50)))
 
@@ -84,7 +86,7 @@ class Window(QtGui.QMainWindow):
 def main():
     my_roi = roi.Roi()
     app = QtGui.QApplication(sys.argv)
-    GUI = Window(my_roi)
+    GUI = Window(my_roi) # now we pass the roi to the window
     sys.exit(app.exec_())
 
 main()
