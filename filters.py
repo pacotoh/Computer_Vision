@@ -6,28 +6,19 @@ import roi
 import scipy.signal as signal
 import numpy as np
 
-IMAGE_PATH = 'images/chroma/pano002.jpg'
-image = None
-gray = False
-smooth = 5
-
 # change the kernel to apply the convolve2D method
 ker = np.array([[ 1, 0, 0]
                ,[ 0, 0, 0]
                ,[ 0, 0, 1]])
 
-# we can pass the image from the command line
-if len(sys.argv) == 2:
-    IMAGE_PATH = sys.argv[1]
-
-image = cv.imread(IMAGE_PATH)
-
 class Window(QtGui.QMainWindow):
-    def __init__(self):
+    def __init__(self, roi):
         super(Window, self).__init__()
-        self.setGeometry(250, 250, 500, 500)
+        self.setGeometry(250, 250, 500, 300)
         self.setWindowTitle('Computer Vision Filters')
+        self.roi = roi
         self.home()
+        self.filt = False
 
     def home(self):
         btn = QtGui.QPushButton('Original', self)
@@ -65,69 +56,35 @@ class Window(QtGui.QMainWindow):
         btn.resize(100, 50)
         btn.move(350, 200)
 
-        btn = QtGui.QPushButton('+', self)
-        btn.clicked.connect(self.plusSmooth)
-        btn.resize(50, 50)
-        btn.move(150, 300)
-
-        btn = QtGui.QPushButton('-', self)
-        btn.clicked.connect(self.minusSmooth)
-        btn.resize(50, 50)
-        btn.move(300, 300)
-
-        checkBox = QtGui.QCheckBox('ToGray', self)
-        checkBox.stateChanged.connect(self.toGray)
-
         self.show()
 
     # to display the original image
     def show_img(self):
-        cv.imshow('img', image)
+        self.roi.play()
 
     # apply filters to the image
     def boxFilter(self):
-        cv.imshow('boxFilter', cv.boxFilter(image, -1, (50, 50)))
+        self.roi.play(lambda x: cv.boxFilter(x, -1, (50, 50)))
 
     def gaussianBlur(self):
-        cv.imshow('gaussianBlur', cv.GaussianBlur(image, (0,0), 5))
+        self.roi.play(lambda x: cv.GaussianBlur(x, (0,0), 5))
 
     def medianBlur(self):
-        cv.imshow('medianBlur', cv.medianBlur(image, 11))
+        self.roi.play(lambda x: cv.medianBlur(x, 11))
 
     def bilateralFilter(self):
-        cv.imshow('bilateralFilter', cv.bilateralFilter(image, 0, 10, 10))
+        self.roi.play(lambda x: cv.bilateralFilter(x, 0, 10, 10))
 
     def laplacianFilter(self):
-        cv.imshow('laplacianFilter', image+1*cv.Laplacian(image, -1))
+        self.roi.play(lambda x: x+1*cv.Laplacian(x, -1))
 
     def convolve2d(self):
-        if gray:
-            cv.imshow('convolve2D', utils.cconv(ker, image.astype(float)/255))
-        else:
-            QtGui.QMessageBox.about(self, 'Alert!',
-            "You can't use convolve2d in a RGB image!\nHint: check 'ToGray'")
-
-    def plusSmooth(self):
-        global smooth
-        smooth = smooth*2
-
-    def minusSmooth(self):
-        global smooth
-        smooth = smooth/2
-
-    # if checked: we have a gray image
-    def toGray(self, state):
-        global image, gray
-        if state == QtCore.Qt.Checked:
-            image = utils.rgb2gray(image)
-            gray = True
-        else:
-            image = cv.imread(IMAGE_PATH)
-            gray = False
+        self.roi.play(lambda x: utils.cconv(ker, utils.rgb2gray(x).astype(float)/255))
 
 def main():
+    my_roi = roi.Roi()
     app = QtGui.QApplication(sys.argv)
-    GUI = Window()
+    GUI = Window(my_roi)
     sys.exit(app.exec_())
 
 main()
