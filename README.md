@@ -35,7 +35,6 @@ El primer paso es instalar PyQt. Si utilizas linux puedes instalarlo en la termi
 sudo apt-get install python-qt4
 ```
 Ahora contamos con una pequeña GUI con botones. Cada uno de estos botones es un filtro para aplicar sobre la imagen.
-Hay un check en la esquina superior izquierda para cambiar la imagen elegida de color a escala de grises.
 
 # Move Detector
 
