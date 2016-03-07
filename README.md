@@ -37,7 +37,10 @@ sudo apt-get install python-qt4
 Ahora contamos con una pequeña GUI con botones. Cada uno de estos botones es un filtro para aplicar sobre la imagen.
 Hay un check en la esquina superior izquierda para cambiar la imagen elegida de color a escala de grises.
 
-# TODO 
+# Move Detector
 
-- No funciona el filtro convolve2D
-- Hacer el filtrado en un ROI de la imagen
+El background tarda del orden de 12-20 imágenes en configurarse, por lo que echa esa cantidad de fotos antes de ser operativo.
+Las imágenes se generan en la carpeta images/move_detector.
+
+El funcionamiento es sencillo, se van acumulando los frames que superan una cantidad de pixels con variación respecto al fondo y cuando
+esta cantidad de frames llega a un umbral se echa una foto.
