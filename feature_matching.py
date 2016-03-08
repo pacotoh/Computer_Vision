@@ -20,9 +20,10 @@ def play(dev=0):
         ret, frame = cap.read()
 
         if key == ord('m'):
-            md = cv.flip(frame, 1)
-            cv.imwrite(models_path + 'm' + str(model_index) + '.png', md)
-            model_index+=1
+            #md = cv.flip(frame, 1)
+            #cv.imwrite(models_path + 'm' + str(model_index) + '.png', md)
+            #model_index+=1
+            
 
         if key == ord('c'):
             capt = cv.flip(frame, 1)
