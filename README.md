@@ -1,8 +1,3 @@
-# Menú de aplicaciones
-
-Incluido menú de aplicaciones gráfico para elegir, por ahora, entre la aplicación de ROI y la de CHROMA.
-Ha sido utilizada la librería PyQt4.
-
 # ROI
 
  Prueba de captura de una Región de Interés en vídeo capturado por webcam usando python y opencv.
@@ -43,3 +38,13 @@ Las imágenes se generan en la carpeta images/move_detector.
 
 El funcionamiento es sencillo, se van acumulando los frames que superan una cantidad de pixels con variación respecto al fondo y cuando
 esta cantidad de frames llega a un umbral se echa una foto.
+
+# Feature Matching
+
+Primera versión del Feature Matching usando SIFT.
+
+## TODO
+
+- Hacer el matching de forma más eficiente: almacenar todos los detectAndCompute en un pickle.
+- Al cerrar y volver a abrir no se cargan bien los modelos: arreglar comandos l y s.
+- Para un futuro probar varios Algoritmos.
