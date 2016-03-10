@@ -58,5 +58,8 @@ def save_session(path):
         pickle.dump(list_img, open(path + 'save.pkl', 'wb'))
 
 def load_session(path):
-    list_img = pickle.load(open(path + 'save.pkl', 'rb'))
-    return list_img, len(list_img)-1
+    if os.path.exists(path):
+        list_img = pickle.load(open(path + 'save.pkl', 'rb'))
+        return list_img, len(list_img)-1
+    else:
+         return -1, -1
