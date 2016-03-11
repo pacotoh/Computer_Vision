@@ -7,6 +7,9 @@ MAX_BGS = 15000 # number of pixels(x, y)*255 : white
 MAX_FRAMES = 10 # frames to detect the movement
 path = 'images/move_detector/'
 
+if not os.path.exists(path):
+    os.makedirs(path)
+
 def play(dev=0):
     cap = cv.VideoCapture(dev)
     # Background subtractor with default parameters: history = 500,
@@ -23,7 +26,6 @@ def play(dev=0):
 
         bgs = bgsub.apply(frame)
         bgs_count = sum(sum(bgs))
-        print(bgs_count)
 
         if bgs_count > MAX_BGS:
             list_frames.append(frame)

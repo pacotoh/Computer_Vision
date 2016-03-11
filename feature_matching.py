@@ -9,11 +9,17 @@ def play(dev=0):
 
     cap = cv.VideoCapture(dev)
     model_index = 0
+    path = 'images/feature_matching/'
     models_path = 'images/feature_matching/models/'
+    tests_path = 'images/feature_matching/tests/'
     models = [] # list of the created image models
     save = False
     load = False
     matching = False
+
+    if not os.path.exists(path):
+        os.makedirs(models_path)
+        os.makedirs(tests_path)
 
     #akaze = cv.AKAZE_create()
     #bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck = True)
@@ -49,7 +55,7 @@ def play(dev=0):
             models, ind = ut.load_session(models_path)
 
             capt = cv.flip(frame, 1)
-            md = models[1]
+            #md = models[1]
             kpoints1, ds1 = method.detectAndCompute(capt, None)
             #kpoints2, ds2 = method.detectAndCompute(md, None)
 #####
@@ -79,6 +85,7 @@ def play(dev=0):
             #sol = cv.drawMatchesKnn(capt, kpoints1, md, kpoints2, matches[:15], None, flags = 2)
             sol = cv.drawMatchesKnn(capt, kpoints1, model, kpoints2, matches, None, flags = 2)
             cv.imshow('sol', sol)
+            cv.imwrite(tests_path + 'test.png', sol)
 
         cv.imshow('frame', cv.flip(frame, 1))
 
