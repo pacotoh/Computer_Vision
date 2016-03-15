@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import utils as ut
 import os
 import pickle
+import utils as ut
+
+# TODO: Convert to gray the images?
 
 def play(dev=0):
 
@@ -11,81 +14,84 @@ def play(dev=0):
     model_index = 0
     path = 'images/feature_matching/'
     models_path = 'images/feature_matching/models/'
-    tests_path = 'images/feature_matching/tests/'
+
     models = [] # list of the created image models
-    save = False
-    load = False
-    matching = False
+    imgs = [] # list of the modeled images
 
     if not os.path.exists(path):
         os.makedirs(models_path)
-        os.makedirs(tests_path)
 
-    #akaze = cv.AKAZE_create()
-    #bf = cv.BFMatcher(cv.NORM_HAMMING, crossCheck = True)
     method = cv.xfeatures2d.SIFT_create()
     bf = cv.BFMatcher()
+
+    # First time we test if exists the models and charge them
+    if os.path.exists(path + 'models.pkl'):
+        models = pickle.load(open(path + 'models.pkl', 'rb'))
+        imgs = pickle.load(open(path + 'images.pkl', 'rb'))
 
     while(True):
         key = cv.waitKey(1) & 0xFF
         ret, frame = cap.read()
 
-        if os.path.exists(models_path + 'save.pkl'):
-            load = True
-            matching = True
-            models, model_index = ut.load_session(models_path)
+        # load the models and the images
+        if key == ord('l'):
+            # Testing one of them we have both for sure (models, imgs)
+            if os.path.exists(path + 'models.pkl'):
+                models = pickle.load(open(path + 'models.pkl', 'rb'))
+                imgs = pickle.load(open(path + 'images.pkl', 'rb'))
 
-        # load the number of models and the models
-        if key == ord('l') and load:
-            save = True
-            models, ind = ut.load_session(models_path)
+        # We have 2 lists: models and images
+        # apply detectAndCompute to each image and save it in models
+        if key == ord('s'):
+            for f in os.listdir(models_path):
+                print(f)
+                img = cv.imread(models_path + f)
+                cv.imshow('img', img)
+                #detect and compute the image
+                kpoints, ds = method.detectAndCompute(img, None)
+                # TODO: Serialize the Keypoints
+                # http://hanzratech.in/2015/01/16/saving-and-loading-keypoints-in-file-using-opencv-and-python.html
+                for kp in kpoints:
+                    tmp = (kp.pt, kp.size, kp.angle, kp.response, kp.octave,
+                            kp.class_id, desc)
 
-        if key == ord('s')and save:
-            ut.save_session(models_path)
+                #print(kpoints)
+                models.append((kpoints, ds))
+                imgs.append(img)
+            pickle.dump(models, open(path + 'models.pkl', 'wb'))
+            pickle.dump(imgs, open(path + 'images.pkl', 'wb'))
 
-        # take an image to create a model
+        # Take an image to create a model
         if key == ord('m'):
-            save = True
             md = cv.flip(frame, 1)
+            md_gray = cv.cvtColor(md, cv.COLOR_RGB2GRAY)
             cv.imwrite(models_path + 'm' + str(model_index) + '.png', md)
+            kpoints, ds = method.detectAndCompute(md_gray, None)
+            models.append((kpoints, ds))
+            imgs.append(md)
             model_index+=1
 
         # make the matching with the image and the models
-        if key == ord('c') and matching:
-            models, ind = ut.load_session(models_path)
-
+        if key == ord('c'):
             capt = cv.flip(frame, 1)
-            #md = models[1]
             kpoints1, ds1 = method.detectAndCompute(capt, None)
-            #kpoints2, ds2 = method.detectAndCompute(md, None)
-#####
+
             good = []
             model = None
-            for md in models:
-                kpoints2, ds2 = method.detectAndCompute(md, None)
-                matches = bf.knnMatch(ds1, ds2, k = 2)
-
+            index = 0
+            for kp, ds in models:
+                matches = bf.knnMatch(ds1, ds, k = 2)
                 temp = []
                 for m,n in matches:
                     if m.distance < 0.8*n.distance:
                         temp.append(m)
                 if len(temp) > len(good):
                     good = temp
-                    model = md
-#####
-            #matches = bf.knnMatch(ds1, ds2, k = 2)
+                    model = imgs[index]
+                    index += 1
 
-            #good = []
-            #for m,n in matches:
-            #    if m.distance < 0.8*n.distance:
-            #        good.append(m)
-            #print(len(good))
-
-            # don't draw single points
-            #sol = cv.drawMatchesKnn(capt, kpoints1, md, kpoints2, matches[:15], None, flags = 2)
-            sol = cv.drawMatchesKnn(capt, kpoints1, model, kpoints2, matches, None, flags = 2)
+            sol = cv.drawMatchesKnn(capt, kpoints1, model, models[index][0], matches[:15], None, flags = 2)
             cv.imshow('sol', sol)
-            cv.imwrite(tests_path + 'test.png', sol)
 
         cv.imshow('frame', cv.flip(frame, 1))
 
