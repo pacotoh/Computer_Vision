@@ -15,6 +15,9 @@ def play(dev=0):
     method = cv.xfeatures2d.SIFT_create()
     bf = cv.BFMatcher()
 
+    if not os.path.exists(models_path):
+        os.makedirs(models_path)
+
     if os.path.exists(models_path + 'save.pkl'):
         matching = True
         models, model_index = ut.load_session(models_path)
