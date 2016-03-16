@@ -54,7 +54,8 @@ def save_session(path):
         list_img = []
         for f in os.listdir(path):
             img = cv.imread(path + f)
-            list_img.append(img)
+            if not img is None:
+                list_img.append(img)
         pickle.dump(list_img, open(path + 'save.pkl', 'wb'))
 
 def load_session(path):
