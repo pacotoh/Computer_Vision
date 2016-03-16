@@ -43,8 +43,29 @@ esta cantidad de frames llega a un umbral se echa una foto.
 
 Primera versión del Feature Matching usando SIFT.
 
+## Imágenes y modelos
+
+Dentro de 'images/feature_matching/models/' vamos a tener almacenadas las imágenes creadas como modelos.
+Una vez generado el primer modelo y almacenada la primera imagen se generará un fichero 'save.pkl' para no tener que volver a cargar las imágenes siempre que se ejecute la aplicación.
+
+## Funcionamiento
+
+Contamos con dos comandos posibles:
+
+- Comando 'm' para generar un nuevo modelo. Genera una imagen y guarda en el .pkl dicha imagen junto al resto.
+- Comando 'c' para capturar una imagen y hacer el matching con los modelos generados
+
+- Hacer el matching de forma más eficiente: almacenar todos los detectAndCompute en un pickle. Para poder realizar el matching debemos tener al menos un modelo generado.
+
+## Salida
+
+Nuestra salida es la imagen capturada y el modelo más próximo a dicha imagen.
+
+```
+sol = cv.drawMatchesKnn(capt, kpoints1, model, kpoints2, matches[:20], None, flags = 2)
+```
+Se puede ajustar el número de puntos de interés que se quiere mostrar en el matching con el parámetro matches. En el ejemplo mostramos 20 matches en la imagen.
+
 ## TODO
 
-- Hacer el matching de forma más eficiente: almacenar todos los detectAndCompute en un pickle.
-- Al cerrar y volver a abrir no se cargan bien los modelos: arreglar comandos l y s.
-- Para un futuro probar varios Algoritmos.
+- Los Keypoints no se pueden introducir en el pickle sin serializar. Probar XML o JSON.

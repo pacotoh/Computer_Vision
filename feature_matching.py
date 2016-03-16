@@ -10,14 +10,12 @@ def play(dev=0):
     model_index = 0
     models_path = 'images/feature_matching/models/'
     models = [] # list of the created image models
-    load = False
     matching = False
 
     method = cv.xfeatures2d.SIFT_create()
     bf = cv.BFMatcher()
 
     if os.path.exists(models_path + 'save.pkl'):
-        load = True
         matching = True
         models, model_index = ut.load_session(models_path)
         model_index +=1
@@ -25,12 +23,6 @@ def play(dev=0):
     while(True):
         key = cv.waitKey(1) & 0xFF
         ret, frame = cap.read()
-
-        # load the number of models and the models
-        if key == ord('l') and load:
-            matching = True
-            models, model_index = ut.load_session(models_path)
-            print('--Session loaded')
 
         # take an image to create a model
         if key == ord('m'):
