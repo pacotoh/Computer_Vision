@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 
 CPATH = '/home/pacotoh/anaconda3/share/OpenCV/haarcascades/'
 
+# f is the function to apply to the roi
 def faceDetection(cpath, f=None, dev=0):
     cap = cv.VideoCapture(dev)
-
     face_cascade = cv.CascadeClassifier(cpath + 'haarcascade_frontalface_default.xml')
 
     while(True):
@@ -20,6 +20,7 @@ def faceDetection(cpath, f=None, dev=0):
 
         for (x, y, w, h) in faces:
             roi = frame[y:y+h, x:x+w]
+            # we can only apply the filter if the roi exists
             if roi is not None:
                 frame[y:y+h, x:x+w] = f(frame[y:y+h, x:x+w])
 
