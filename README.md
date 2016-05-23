@@ -69,4 +69,6 @@ Se puede ajustar el número de puntos de interés que se quiere mostrar en el ma
 
 # Face Detection
 
-Prueba de aplicación de un filtro cualquiera a una cara detectada mediante haar cascade. En este caso se ha utilizado un filtro laplaciano. De esta forma podemos aplicar algún filtro que distorsione las caras en un vídeo o imagen para codificarlas de tal forma que sean irreconocibles.
+Prueba de aplicación de un filtro cualquiera a una cara detectada mediante haar cascade.
+Tenemos un diccionario con los filtros aplicables a la cara y podemos elegir entre ellos pulsando desde el 0, que supondría no aplicar ningún filtro hasta el número 4.
+De esta forma podemos aplicar algún filtro que distorsione las caras en un vídeo o imagen para codificarlas de tal forma que sean irreconocibles.
