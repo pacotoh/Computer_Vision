@@ -72,3 +72,4 @@ Se puede ajustar el número de puntos de interés que se quiere mostrar en el ma
 Prueba de aplicación de un filtro cualquiera a una cara detectada mediante haar cascade.
 Tenemos un diccionario con los filtros aplicables a la cara y podemos elegir entre ellos pulsando desde el 0, que supondría no aplicar ningún filtro hasta el número 4.
 De esta forma podemos aplicar algún filtro que distorsione las caras en un vídeo o imagen para codificarlas de tal forma que sean irreconocibles.
+Además del filtro ahora le podemos aplicar un colorMap de entre 4. Los colorMaps son de primavera, verano, otoño e invierno y se activan mediante los comandos 'p', 'v', 'o' e 'i'.
